@@ -7,11 +7,16 @@
       <div class="nav-links">
         <router-link to="/login" class="nav-link">Log In</router-link>
         <router-link to="/signup" class="nav-link">Sign Up</router-link>
+        <LogoutButton />
+
       </div>
     </nav>
   </template>
   
-  <script lang="ts" setup></script>
+  <script lang="ts" setup>
+import LogoutButton from '../components/LogoutButton.vue'
+
+</script>
   
   <style scoped>
   .navbar {

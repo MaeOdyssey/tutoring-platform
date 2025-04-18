@@ -1,7 +1,19 @@
 <template>
     <div class="dashboard-view">
-      <h2 class="greeting">Welcome back!</h2>
+      <h2 class="greeting"> Welcome back<span v-if="auth.user">, {{ auth.user.name }}</span>!
+</h2>
+
       <p class="subtext">Here's what's waiting for you today:</p>
+      <section v-if="sessions.length" class="dashboard-card card-upcoming">
+        <h3>📆 Upcoming Sessions</h3>
+        <ul>
+          <li v-for="session in sessions" :key="session.id">
+            {{ new Date(session.date).toLocaleString() }}
+          </li>
+        </ul>
+      </section>
+      <p v-else class="subtext">You have no upcoming sessions yet.</p>
+
   
       <div class="dashboard-grid">
         <section class="dashboard-card card-schedule">
@@ -19,15 +31,58 @@
         <section class="dashboard-card card-payments">
           <h3>💳 Payments</h3>
           <p>Review payment history and plans.</p>
-          <button class="btn">View Payments</button>
+          <router-link to="/payments" class="btn">View Payments</router-link>
         </section>
       </div>
     </div>
   </template>
   
-  <script lang="ts" setup>
-  // You could pull name from user data later!
+  <script setup lang="ts">
+  import { ref, onMounted, watchEffect } from 'vue'
+  import axios from 'axios'
+  import { useAuthStore } from '../stores/authStore'
+  
+  const auth = useAuthStore()
+  
+  interface Session {
+    id: number
+    date: string
+    time: string
+    status: string
+  }
+  
+  const sessions = ref<Session[]>([])
+  
+  onMounted(async () => {
+    if (auth.token && !auth.user) {
+      await auth.fetchUser()
+    }
+  
+    try {
+      const res = await axios.get('http://localhost:8000/api/sessions', {
+        headers: {
+          Authorization: `Bearer ${auth.token}`
+        }
+      })
+  
+      const now = new Date()
+      sessions.value = (res.data as Session[]).filter((session) => {
+        return new Date(session.date) >= now
+      })
+  
+    } catch (err) {
+      console.error('Failed to fetch sessions:', err)
+    }
+  })
+  
+  // 🧠 DEBUG: Force reactivity
+  watchEffect(() => {
+    console.log('auth.user updated:', auth.user)
+  })
   </script>
+  
+  
+  
   
   <style scoped>
   .dashboard-view {
@@ -64,6 +119,20 @@
     transform: translateY(-3px);
   }
   
+    .card-upcoming {
+    border-top: 4px solid #a78bfa; /* purple */
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    margin: 0.5rem 0;
+    font-weight: 500;
+  }
+
   .card-schedule {
     border-top: 4px solid #4ade80; /* green */
   }

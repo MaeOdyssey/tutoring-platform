@@ -13,7 +13,19 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/signup', name: 'Signup', component: SignupView },
   { path: '/dashboard', name: 'Dashboard', component: DashboardView },
   { path: '/video', name: 'Video', component: VideoRoomView },
-  { path: '/schedule', name: 'Schedule', component: ScheduleView }
+  { path: '/schedule', name: 'Schedule', component: ScheduleView },
+  {
+    path: '/payments',
+    name: 'Payments',
+    component: () => import('../views/PaymentsView.vue')
+  },
+  {
+    path: '/payments/new',
+    name: 'AddPayment',
+    component: () => import('../views/AddPaymentView.vue')
+  }
+  
+  
 ]
 
 const router = createRouter({

@@ -1,7 +1,5 @@
 <template>
     <div class="home-view">
-      <Navbar />
-  
       <section class="welcome-section">
         <h1>Welcome to LearnTogether 🎓</h1>
         <p>A safe and supportive tutoring platform built for healing and connection.</p>
@@ -15,7 +13,6 @@
   </template>
   
   <script lang="ts" setup>
-  import Navbar from '../components/Navbar.vue'
   </script>
   
   <style scoped>
