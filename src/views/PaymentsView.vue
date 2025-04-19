@@ -17,7 +17,7 @@
         </thead>
         <tbody>
           <tr v-for="payment in payments" :key="payment.id">
-            <td>${{ payment.amount.toFixed(2) }}</td>
+            <td>${{ Number(payment.amount).toFixed(2) }}</td>
             <td>{{ payment.method }}</td>
             <td>{{ payment.status }}</td>
             <td>{{ formatDate(payment.session_date) }}</td>

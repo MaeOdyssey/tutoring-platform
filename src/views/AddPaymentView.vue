@@ -3,15 +3,7 @@
       <h2>➕ Add New Payment</h2>
   
       <form @submit.prevent="submitPayment" class="payment-form">
-        <div class="form-group">
-          <label for="user">User</label>
-          <select v-model="form.user_id" required>
-            <option disabled value="">Select User</option>
-            <option v-for="user in users" :key="user.id" :value="user.id">
-              {{ user.name }} ({{ user.email }})
-            </option>
-          </select>
-        </div>
+        
   
         <div class="form-group">
           <label for="session">Session</label>
@@ -55,11 +47,6 @@
   const auth = useAuthStore()
   const router = useRouter()
   
-  interface User {
-  id: number
-  name: string
-  email: string
-}
 
 interface Session {
   id: number
@@ -67,12 +54,10 @@ interface Session {
   time: string
 }
 
-const users = ref<User[]>([])
 const sessions = ref<Session[]>([])
 
   
   const form = ref({
-    user_id: '',
     session_id: '',
     amount: 0,
     method: ''
@@ -82,21 +67,17 @@ const sessions = ref<Session[]>([])
   const errorMessage = ref('')
   
   onMounted(async () => {
-    try {
-      const userRes = await axios.get('http://localhost:8000/api/users', {
-        headers: { Authorization: `Bearer ${auth.token}` }
-      })
-      users.value = userRes.data
-  
-      const sessionRes = await axios.get('http://localhost:8000/api/sessions', {
-        headers: { Authorization: `Bearer ${auth.token}` }
-      })
-      sessions.value = sessionRes.data
-    } catch (err) {
-      errorMessage.value = 'Failed to load users or sessions'
-      console.error(err)
-    }
-  })
+  try {
+    const res = await axios.get('http://localhost:8000/api/sessions', {
+      headers: { Authorization: `Bearer ${auth.token}` }
+    })
+    sessions.value = res.data
+  } catch (err) {
+    errorMessage.value = 'Failed to load available sessions'
+    console.error('Session fetch error:', err)
+  }
+})
+
   
   async function submitPayment() {
     try {

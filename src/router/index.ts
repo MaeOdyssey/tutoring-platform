@@ -6,6 +6,8 @@ import SignupView from '../views/SignupView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import VideoRoomView from '../views/VideoRoomView.vue'
 import ScheduleView from '../views/ScheduleView.vue'
+import RegisterTeacherView from '../views/RegisterTeacherView.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'Home', component: HomeView },
@@ -23,6 +25,18 @@ const routes: Array<RouteRecordRaw> = [
     path: '/payments/new',
     name: 'AddPayment',
     component: () => import('../views/AddPaymentView.vue')
+  },
+
+  {
+    path: '/teacher/dashboard',
+    name: 'TeacherDashboard',
+    component: () => import('../views/TeacherDashboardView.vue')
+  },
+
+  {
+    path: '/register-teacher',
+    name: 'RegisterTeacher',
+    component: RegisterTeacherView
   }
   
   

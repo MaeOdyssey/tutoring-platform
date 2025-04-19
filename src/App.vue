@@ -1,12 +1,15 @@
 <template>
   <div id="app">
     <Navbar />
+    <router-link to="/register-teacher">Become a Teacher</router-link>
+
     <router-view />
   </div>
 </template>
 
 <script lang="ts" setup>
 import Navbar from './components/Navbar.vue'
+
 </script>
 
 <style>
