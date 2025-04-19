@@ -26,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'AddPayment',
     component: () => import('../views/AddPaymentView.vue')
   },
+  {
+    path: '/teach',
+    name: 'TeachLanding',
+    component: () => import('../views/TeachLandingView.vue')
+  },  
 
   {
     path: '/teacher/dashboard',
